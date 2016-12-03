@@ -8,11 +8,13 @@ import scala.io.Source
 object Main {
 
   def main(args: Array[String]): Unit = {
+    // read the data
     import AccountParser._
     import OrderParser._
     val accounts = Source.fromResource("clients.txt").getLines().map(_.toAccount).toList
     val orders = Source.fromResource("orders.txt").getLines().map(_.toOrder)
     val writer = new PrintWriter("result.txt")
+    // trade
     new Matcher(accounts, orders).trade() foreach { a =>
       println(a)
       writer.write(a.toString + "\n")

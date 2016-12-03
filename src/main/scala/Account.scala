@@ -3,6 +3,7 @@
   */
 case class Account(client: String, cache: Int, stocks: Map[String, Int]) {
 
+  // Processes a trade against the account
   def applyTrade(trade: Trade):Account = if (trade.clientFrom == client) { // sale
     val newStocks = stocks.updated(trade.ticket, stocks.getOrElse(trade.ticket, 0) - trade.quantity)
     copy(cache = cache + trade.price * trade.quantity, stocks = newStocks)
@@ -11,7 +12,7 @@ case class Account(client: String, cache: Int, stocks: Map[String, Int]) {
     val newCache = cache - trade.price * trade.quantity
     copy(cache = newCache, stocks = newStocks)
   } else {
-    this
+    this // the trade is not for the account
   }
 
   override def toString = s"$client\t$cache" +
